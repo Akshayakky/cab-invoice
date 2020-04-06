@@ -38,11 +38,11 @@ public class InvoiceGenerator {
         return new InvoiceSummary(rides.size(), this.totalFare, this.averageFare);
     }
 
-    public InvoiceSummary getTotalFare(int userId) {
-        return this.getTotalFare(rideRepository.getRides(userId));
+    public InvoiceSummary getTotalFare(int userId) throws RideRepositoryException{
+            return this.getTotalFare(rideRepository.getRides(userId));
     }
 
-    public void addRides(int userId, ArrayList<Ride> rides) {
+    public void addRides(int userId, ArrayList<Ride> rides) throws RideRepositoryException {
         rideRepository.addRides(userId, rides);
     }
 }

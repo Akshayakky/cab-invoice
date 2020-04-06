@@ -34,13 +34,49 @@ public class CabInvoiceTest {
 
     @Test
     public void givenDistanceTimeAndUserIdForRides_ReturnInvoiceSummary() {
-        ArrayList<Ride> rides = new ArrayList<>(Arrays.asList(new Ride(12, 10)
-                , new Ride(6, 12), new Ride(24, 12)));
-        InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
-        int userId = 1;
-        invoiceGenerator.addRides(userId, rides);
-        InvoiceSummary invoiceSummary = invoiceGenerator.getTotalFare(userId);
-        InvoiceSummary invoiceSummaryExpected = invoiceGenerator.getTotalFare(rides);
-        Assert.assertEquals(invoiceSummaryExpected, invoiceSummary);
+        try {
+            ArrayList<Ride> rides = new ArrayList<>(Arrays.asList(new Ride(12, 10)
+                    , new Ride(6, 12), new Ride(24, 12)));
+            InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
+            int userId = 1;
+            invoiceGenerator.addRides(userId, rides);
+            InvoiceSummary invoiceSummary = invoiceGenerator.getTotalFare(userId);
+            InvoiceSummary invoiceSummaryExpected = invoiceGenerator.getTotalFare(rides);
+            Assert.assertEquals(invoiceSummaryExpected, invoiceSummary);
+        }catch (RideRepositoryException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenDistanceTimeAndUserIdForRides_WhenRidesNull_ThenThrowException() {
+        try {
+            ArrayList<Ride> rides = new ArrayList<>(Arrays.asList());
+            InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
+            int userId = 1;
+            invoiceGenerator.addRides(userId, rides);
+            InvoiceSummary invoiceSummary = invoiceGenerator.getTotalFare(userId);
+            InvoiceSummary invoiceSummaryExpected = invoiceGenerator.getTotalFare(rides);
+            Assert.assertEquals(invoiceSummaryExpected, invoiceSummary);
+        }catch (RideRepositoryException e){
+            Assert.assertEquals(RideRepositoryException.ExceptionType.NULL_LIST, e.type);
+        }
+    }
+
+    @Test
+    public void givenDistanceTimeAndUserIdForRides_WhenUserIdDoesNotExist_ThenThrowException() {
+        try {
+            ArrayList<Ride> rides = new ArrayList<>(Arrays.asList(new Ride(12, 10)
+                    , new Ride(6, 12), new Ride(24, 12)));
+            InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
+            int userId = 1;
+            int wrongUserId = 2;
+            invoiceGenerator.addRides(userId, rides);
+            InvoiceSummary invoiceSummary = invoiceGenerator.getTotalFare(wrongUserId);
+            InvoiceSummary invoiceSummaryExpected = invoiceGenerator.getTotalFare(rides);
+            Assert.assertEquals(invoiceSummaryExpected, invoiceSummary);
+        }catch (RideRepositoryException e){
+            Assert.assertEquals(RideRepositoryException.ExceptionType.NO_VALUE_FOUND, e.type);
+        }
     }
 }
