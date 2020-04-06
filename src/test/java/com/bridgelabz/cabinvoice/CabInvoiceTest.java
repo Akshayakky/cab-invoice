@@ -3,6 +3,9 @@ package com.bridgelabz.cabinvoice;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class CabInvoiceTest {
     //  Welcome To Cab Invoice Problem
     @Test
@@ -17,5 +20,14 @@ public class CabInvoiceTest {
         InvoiceGenerator invoiceGenerator = new InvoiceGenerator(0.1, 1);
         double totalFare = invoiceGenerator.getTotalFare();
         Assert.assertEquals(5, totalFare, 0);
+    }
+
+    @Test
+    public void givenDistanceTimeForRides_ReturnInvoiceSummary() {
+        ArrayList<Ride> rides = new ArrayList<>(Arrays.asList(new Ride(12, 10)
+                , new Ride(6, 12), new Ride(24, 12)));
+        InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
+        double totalFare = invoiceGenerator.getTotalFare(rides);
+        Assert.assertEquals(454, totalFare, 0);
     }
 }
