@@ -28,7 +28,19 @@ public class CabInvoiceTest {
                 , new Ride(6, 12), new Ride(24, 12)));
         InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
         InvoiceSummary invoiceSummary = invoiceGenerator.getTotalFare(rides);
-        InvoiceSummary invoiceSummaryExpected = new InvoiceSummary(3,454,151.33333333333334);
+        InvoiceSummary invoiceSummaryExpected = new InvoiceSummary(3, 454, 151.33333333333334);
+        Assert.assertEquals(invoiceSummaryExpected, invoiceSummary);
+    }
+
+    @Test
+    public void givenDistanceTimeAndUserIdForRides_ReturnInvoiceSummary() {
+        ArrayList<Ride> rides = new ArrayList<>(Arrays.asList(new Ride(12, 10)
+                , new Ride(6, 12), new Ride(24, 12)));
+        InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
+        int userId = 1;
+        invoiceGenerator.addRides(userId, rides);
+        InvoiceSummary invoiceSummary = invoiceGenerator.getTotalFare(userId);
+        InvoiceSummary invoiceSummaryExpected = invoiceGenerator.getTotalFare(rides);
         Assert.assertEquals(invoiceSummaryExpected, invoiceSummary);
     }
 }

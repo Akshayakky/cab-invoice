@@ -10,6 +10,7 @@ public class InvoiceGenerator {
     private double time;
     private double totalFare;
     private double averageFare;
+    RideRepository rideRepository;
 
     public InvoiceGenerator(double distance, double time) {
         this.distance = distance;
@@ -17,7 +18,7 @@ public class InvoiceGenerator {
     }
 
     public InvoiceGenerator() {
-
+        rideRepository = new RideRepository();
     }
 
     public double getTotalFare() {
@@ -26,6 +27,7 @@ public class InvoiceGenerator {
     }
 
     public InvoiceSummary getTotalFare(ArrayList<Ride> rides) {
+        totalFare = 0;
         for (Ride ride :
                 rides) {
             this.distance = ride.distance;
@@ -34,5 +36,13 @@ public class InvoiceGenerator {
         }
         this.averageFare = this.totalFare / rides.size();
         return new InvoiceSummary(rides.size(), this.totalFare, this.averageFare);
+    }
+
+    public InvoiceSummary getTotalFare(int userId) {
+        return this.getTotalFare(rideRepository.getRides(userId));
+    }
+
+    public void addRides(int userId, ArrayList<Ride> rides) {
+        rideRepository.addRides(userId, rides);
     }
 }
