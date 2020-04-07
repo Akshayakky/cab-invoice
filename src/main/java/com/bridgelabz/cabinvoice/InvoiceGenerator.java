@@ -33,9 +33,4 @@ public class InvoiceGenerator {
     public void addRides(int userId, Ride[] rides) throws RideRepositoryException {
         rideRepository.addRides(userId, rides);
     }
-
-    public void test(Ride[] rides) {
-        Ride[] ridesNew = rides;
-        ridesNew[0] = new Ride(0, 0);
-    }
 }
