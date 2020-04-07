@@ -1,7 +1,5 @@
 package com.bridgelabz.cabinvoice;
 
-import java.util.ArrayList;
-
 public class InvoiceGenerator {
     private int COST_PER_KILOMETER = 10;
     private int COST_PER_MINUTE = 1;
@@ -26,7 +24,7 @@ public class InvoiceGenerator {
         return (totalFare > MINIMUM_COST) ? totalFare : MINIMUM_COST;
     }
 
-    public InvoiceSummary getTotalFare(ArrayList<Ride> rides) {
+    public InvoiceSummary getTotalFare(Ride[] rides) {
         totalFare = 0;
         for (Ride ride :
                 rides) {
@@ -34,15 +32,20 @@ public class InvoiceGenerator {
             this.time = ride.time;
             this.totalFare += getTotalFare();
         }
-        this.averageFare = this.totalFare / rides.size();
-        return new InvoiceSummary(rides.size(), this.totalFare, this.averageFare);
+        this.averageFare = this.totalFare / rides.length;
+        return new InvoiceSummary(rides.length, this.totalFare, this.averageFare);
     }
 
-    public InvoiceSummary getTotalFare(int userId) throws RideRepositoryException{
-            return this.getTotalFare(rideRepository.getRides(userId));
+    public InvoiceSummary getTotalFare(int userId) throws RideRepositoryException {
+        return this.getTotalFare(rideRepository.getRides(userId));
     }
 
-    public void addRides(int userId, ArrayList<Ride> rides) throws RideRepositoryException {
+    public void addRides(int userId, Ride[] rides) throws RideRepositoryException {
         rideRepository.addRides(userId, rides);
+    }
+
+    public void test(Ride[] rides) {
+        Ride[] ridesNew = rides;
+        ridesNew[0] = new Ride(0, 0);
     }
 }
